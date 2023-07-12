@@ -8,8 +8,12 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'subscribe',
     pathMatch: 'full'
+  },
+  {
+    path: 'subscribe',
+    loadChildren: () => import('./subscribe/subscribe.module').then( m => m.SubscribePageModule)
   },
 ];
 

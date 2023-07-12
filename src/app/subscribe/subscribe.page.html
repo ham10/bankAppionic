@@ -1,0 +1,29 @@
+
+<form #form="ngForm" (ngSubmit)="loginForm(form)"novalidate >
+  <div class="container">
+    <h1 class="heading">🚀 Create Account<br><br></h1>
+    <p class="para"></p>
+    <ion-item lines="none" class="ion-item">
+      <fieldset  class="input-item">
+        <legend> Name</legend>
+        <ion-input  type="text" name="login_user" ngModel required #name="ngModel" placeholder="Ham"></ion-input>
+      </fieldset>
+    </ion-item>
+    <ion-item lines="none" class="ion-item">
+      <fieldset  class="input-item">
+        <legend>UserName</legend>
+        <ion-input type="text"   name="email" ngModel required #name="ngModel" placeholder="hamdo@.com"></ion-input>
+      </fieldset>
+    </ion-item>
+    <ion-item lines="none" class="ion-item">
+      <fieldset class="input-item">
+        <legend>Password</legend>
+        <ion-input  type="password" name="login_password" ngModel required #name="ngModel" placeholder="*******"></ion-input>
+      </fieldset>
+    </ion-item>
+
+    <ion-button class="login-button" (click)="loginForm(form)"   expand="block">Register</ion-button>
+    <ion-button class="google-button"  (click)="getValue() "expand="block" color="light"><ion-icon name="logo-google"></ion-icon>&nbsp;&nbsp; </ion-button>
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+</form>
