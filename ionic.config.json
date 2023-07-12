@@ -1,0 +1,7 @@
+{
+  "name": "bankAppionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
