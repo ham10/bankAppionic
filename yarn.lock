@@ -1320,6 +1320,11 @@
     "@babel/helper-validator-identifier" "^7.22.5"
     to-fast-properties "^2.0.0"
 
+"@capacitor/android@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-5.2.0.tgz#7b8de51e1c1ccb7f4381a5c23165838d864136d3"
+  integrity sha512-NI3dkibW7pro8V6TEE36ke6/NEpahUHT1pIojE6ZCJPn8CdC/ZZ08YzoT9EB9QgU566C+JnvIjTIOn76oQNssA==
+
 "@capacitor/app@5.0.6":
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/@capacitor/app/-/app-5.0.6.tgz#2ee02551115fd2e92dc7e81bc30a6c6fa78efa66"
@@ -1525,6 +1530,20 @@
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
+
+"@ionic-native/core@^5.36.0":
+  version "5.36.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/core/-/core-5.36.0.tgz#712c40a530b119b0039e8d16cb577899f50541d4"
+  integrity sha512-lOrkktadlKYbYf1LrDyAtsu1JnQ0oCCdkOU7iHQ8oXnNOkMwobFfD2m62F1CoOr0u9LIkpYnZSPjng8lZbmbNw==
+  dependencies:
+    "@types/cordova" latest
+
+"@ionic-native/fingerprint-aio@^5.36.0":
+  version "5.36.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/fingerprint-aio/-/fingerprint-aio-5.36.0.tgz#4c27dab9037751506964fd2b17c3e0f3a99e97c5"
+  integrity sha512-zd1PAfMsW4Inx/Vi399O29LWr9R1q0Gcj/2g86PZWSb0KnMG8dCoKoXKmkN3+HhajA/cdXaHEJWXbv+t6VlX8Q==
+  dependencies:
+    "@types/cordova" latest
 
 "@ionic/angular-toolkit@^9.0.0":
   version "9.0.0"
@@ -2001,6 +2020,11 @@
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/@types/cookie/-/cookie-0.4.1.tgz#bfd02c1f2224567676c1545199f87c3a861d878d"
   integrity sha512-XW/Aa8APYr6jSVVA1y/DEIZX0/GMKLEVekNG727R8cs56ahETkRAy/3DR7+fJyh7oUgGwNQaRfXCun0+KbWY7Q==
+
+"@types/cordova@latest":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@types/cordova/-/cordova-11.0.0.tgz#9fba2d903ab7181ef0c0a43fb13659a6d02226b3"
+  integrity sha512-AtBm1IAqqXsXszJe6XxuA2iXLhraNCj25p/FHRyikPeW0Z3YfgM6qzWb+VJglJTmZc5lqRNy84cYM/sQI5v6Vw==
 
 "@types/cors@^2.8.12":
   version "2.8.13"
@@ -3283,6 +3307,11 @@ copy-webpack-plugin@11.0.0:
     normalize-path "^3.0.0"
     schema-utils "^4.0.0"
     serialize-javascript "^6.0.0"
+
+cordova-plugin-fingerprint-aio@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-fingerprint-aio/-/cordova-plugin-fingerprint-aio-5.0.1.tgz#6dafd6f92426c50ad6ae6dc703f45c4f36446a28"
+  integrity sha512-gZSBu7ZWmqy/Sf+LEnGv6/a5zLIZwijRsQ8nAxdlU94VHOyPB8yGTzSImBJvvShzr+BJ5GkJcv5iffUNpanXtQ==
 
 core-js-compat@^3.30.2, core-js-compat@^3.31.0:
   version "3.31.1"
