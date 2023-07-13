@@ -40,6 +40,7 @@ export class HomePage {
   }
 
   add(value:any) {
+    this.storage.set('secure','Securitypin');
     this.storage.get('Securitypin').then((Securitypin) => {
 
       if(this.passcode.length < 4) {
