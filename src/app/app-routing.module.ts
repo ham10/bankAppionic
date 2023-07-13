@@ -20,6 +20,13 @@ const routes: Routes = [
     path: 'home-bank',
     loadChildren: () => import('./home-bank/home-bank.module').then( m => m.HomeBankPageModule)
   },
+  {
+    path: 'barcode-scanning',
+    loadChildren: () =>
+      import('./barcode-scanning/barcode-scanning.module').then(
+        (m) => m.BarcodeScanningModule
+      ),
+  },
 ];
 
 @NgModule({

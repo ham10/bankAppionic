@@ -1,4 +1,4 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -10,6 +10,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {IonicStorageModule} from "@ionic/storage-angular";
 import {FingerprintAIO} from "@ionic-native/fingerprint-aio/ngx";
 import {HomePageModule} from "./home/home.module";
+import {GlobalErrorHandlerService} from "@app/core";
 
 
 @NgModule({
@@ -25,7 +26,11 @@ import {HomePageModule} from "./home/home.module";
   ],
   providers: [
     FingerprintAIO,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandlerService,
+    },],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

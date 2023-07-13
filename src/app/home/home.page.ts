@@ -1,7 +1,8 @@
 import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {FingerprintAIO} from "@ionic-native/fingerprint-aio/ngx";
-import {NavController, ToastController,NavParams} from "@ionic/angular";
+import {NavController, ToastController, NavParams, AlertController} from "@ionic/angular";
 import {Storage} from "@ionic/storage-angular"
+import * as CryptoJs from "crypto-js";
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,8 @@ import {Storage} from "@ionic/storage-angular"
 
 })
 export class HomePage {
-
+  isAlertOpen = false;
+  public alertButtons = ['OK'];
   passcode:any;
   pageStatus:any;
   codeone:any;
@@ -23,12 +25,16 @@ export class HomePage {
   message :any;
   finalPin :any;
   fingerPin :any;
+  public secretKey="je suis seul";
+  public pinCrypt!: any;
+
   constructor(
     public faio: FingerprintAIO,
     public toastCtrl: ToastController,
     public navCtrl: NavController,
     public navParams: NavParams,
-    public storage: Storage)
+    public storage: Storage,
+    private alertController: AlertController)
   {
     this.passcode = '';
     this.finalPin = '';
@@ -61,7 +67,7 @@ export class HomePage {
         if(this.passcode.length == 4) {
           if(this.newPincount > 0){
             if(	this.finalPin == this.codeone+this.codetwo+this.codethree+this.codefour){
-              this.navCtrl.navigateRoot("/home-bank").then(() => {
+              this.navCtrl.navigateRoot("/barcode-scanning").then(() => {
 
               });
               console.log("passwordMatched")
@@ -70,10 +76,13 @@ export class HomePage {
               this.message = false;
             }
           }else{
+
             this.pageStatus = "Confirm Pin"
             this.newPincount++
             this.finalPin = this.codeone+this.codetwo+this.codethree+this.codefour
-            console.log("The four digit code was entered",	this.finalPin);
+
+            this.pinCrypt= CryptoJs.AES.encrypt( this.finalPin,this.secretKey).toString();
+            console.log("The four digit code was entered",	this.pinCrypt);
             this.codeone = null;
             this.codetwo= null;
             this.codethree = null;
@@ -107,7 +116,7 @@ export class HomePage {
   }
 
   goTo(){
-    this.navCtrl.navigateRoot("/home-bank").then(() => {
+    this.navCtrl.navigateRoot("/barcode-scanning").then(() => {
 
     });
   }
@@ -139,5 +148,14 @@ export class HomePage {
    }
 
 
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      subHeader: 'Important message',
+      message: 'This is an alert!',
+      buttons: ['OK'],
+    });
 
+    await alert.present();
+  }
 }
