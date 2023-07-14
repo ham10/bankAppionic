@@ -1560,6 +1560,20 @@
   dependencies:
     "@types/cordova" latest
 
+"@ionic-native/sqlite-porter@^5.36.0":
+  version "5.36.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/sqlite-porter/-/sqlite-porter-5.36.0.tgz#d8fb8e05efebeb2b0a6fa1fb2a3736b6285cca29"
+  integrity sha512-piggWVrwC3rFdf/d8wSurHKjcpEx3dsIflYMkhdw8EiZQu3qniVCqjOML5wr8z6hUfzVHUbLHIwMMJsPtTXsjQ==
+  dependencies:
+    "@types/cordova" latest
+
+"@ionic-native/sqlite@^5.36.0":
+  version "5.36.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/sqlite/-/sqlite-5.36.0.tgz#6ac937a7cd8600579dcda997987da4c496e501fb"
+  integrity sha512-+1nXUqBucwG6MYoEvqKlZecvI3xVGWeKIzdZf8Nc4vQx4JFDUYdluiEw3mfzptCC1S/4l6skBsL8eZLFfpzUKA==
+  dependencies:
+    "@types/cordova" latest
+
 "@ionic/angular-toolkit@^9.0.0":
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/@ionic/angular-toolkit/-/angular-toolkit-9.0.0.tgz#4c5480eea081fc54b58a5b09b5e669f1e9c885bd"
@@ -3327,6 +3341,18 @@ cordova-plugin-fingerprint-aio@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/cordova-plugin-fingerprint-aio/-/cordova-plugin-fingerprint-aio-5.0.1.tgz#6dafd6f92426c50ad6ae6dc703f45c4f36446a28"
   integrity sha512-gZSBu7ZWmqy/Sf+LEnGv6/a5zLIZwijRsQ8nAxdlU94VHOyPB8yGTzSImBJvvShzr+BJ5GkJcv5iffUNpanXtQ==
+
+cordova-sqlite-storage-dependencies@4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/cordova-sqlite-storage-dependencies/-/cordova-sqlite-storage-dependencies-4.1.0.tgz#5b685b3802669f84b567ae34f70ff3d1b367f639"
+  integrity sha512-D0ZXfNkS3z9GO+Ha2rC2odvOOMcx/moL8lpVDFxXqcsCEZbJimuki4wZfdrQrGlNd/d7r4DNodljRmO20v6Ntg==
+
+cordova-sqlite-storage@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/cordova-sqlite-storage/-/cordova-sqlite-storage-6.1.0.tgz#e426935b198006feaf71143bde5af1bd6e0d8477"
+  integrity sha512-ko/edy+u9MJVYrXdB6OXUklH0eIRWpa/Rvang7YkvQvsswc9vZr0pM/Ty6eX0MJtLOMJuCXIOiiHZZZbZSZikw==
+  dependencies:
+    cordova-sqlite-storage-dependencies "4.1.0"
 
 core-js-compat@^3.30.2, core-js-compat@^3.31.0:
   version "3.31.1"
@@ -7901,6 +7927,11 @@ ua-parser-js@^0.7.30:
   version "0.7.35"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.35.tgz#8bda4827be4f0b1dda91699a29499575a1f1d307"
   integrity sha512-veRf7dawaj9xaWEu9HoTVn5Pggtc/qj+kqTOFvNiN1l0YdxwC1kvel57UCjThjGa3BHBihE8/UJAHI+uQHmd/g==
+
+uk.co.workingedge.cordova.plugin.sqliteporter@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/uk.co.workingedge.cordova.plugin.sqliteporter/-/uk.co.workingedge.cordova.plugin.sqliteporter-1.1.2.tgz#e926d049dcf1f5805ef5a6349b0305de5b5bf7ae"
+  integrity sha512-yd+MI/N1h2GoUVr1FR0Z8b4tYxxkKAWikKxsQy4sXPZCtoGLBabM3CrACPBZdpgj5HouA1dreJhnK26XxryaxA==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"

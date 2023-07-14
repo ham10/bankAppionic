@@ -27,6 +27,10 @@ const routes: Routes = [
         (m) => m.BarcodeScanningModule
       ),
   },
+  {
+    path: 'transaction-client',
+    loadChildren: () => import('./transaction-client/transaction-client.module').then( m => m.TransactionClientPageModule)
+  },
 ];
 
 @NgModule({

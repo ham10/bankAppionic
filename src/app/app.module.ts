@@ -11,6 +11,7 @@ import {IonicStorageModule} from "@ionic/storage-angular";
 import {FingerprintAIO} from "@ionic-native/fingerprint-aio/ngx";
 import {HomePageModule} from "./home/home.module";
 import {GlobalErrorHandlerService} from "@app/core";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {GlobalErrorHandlerService} from "@app/core";
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    HomePageModule
+    HomePageModule,
+    HttpClientModule
   ],
   providers: [
     FingerprintAIO,
