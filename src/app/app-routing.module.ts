@@ -30,7 +30,11 @@ const routes: Routes = [
   {
     path: 'transaction-client',
     loadChildren: () => import('./transaction-client/transaction-client.module').then( m => m.TransactionClientPageModule)
+  },  {
+    path: 'depot-retrait-transfert',
+    loadChildren: () => import('./depot-retrait-transfert/depot-retrait-transfert.module').then( m => m.DepotRetraitTransfertPageModule)
   },
+
 ];
 
 @NgModule({

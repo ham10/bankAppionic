@@ -12,6 +12,8 @@ import {FingerprintAIO} from "@ionic-native/fingerprint-aio/ngx";
 import {HomePageModule} from "./home/home.module";
 import {GlobalErrorHandlerService} from "@app/core";
 import {HttpClientModule} from "@angular/common/http";
+import {DbService} from "@app/service/db.service";
+import {BarcodeScanningModule} from "@app/barcode-scanning/barcode-scanning.module";
 
 
 @NgModule({
@@ -24,8 +26,9 @@ import {HttpClientModule} from "@angular/common/http";
     ReactiveFormsModule,
     FormsModule,
     HomePageModule,
-    HttpClientModule
+    HttpClientModule,
   ],
+
   providers: [
     FingerprintAIO,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

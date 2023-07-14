@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import {SQLiteObject} from "@ionic-native/sqlite";
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import {BehaviorSubject, Observable} from "rxjs";
 import {Platform} from "@ionic/angular";
-import {SQLite} from "@ionic-native/sqlite/ngx";
 import {HttpClient} from "@angular/common/http";
 import {SQLitePorter} from "@ionic-native/sqlite-porter/ngx";
 import {TransactionClient} from "@app/service/transaction-client";
@@ -12,7 +11,7 @@ import {TransactionClient} from "@app/service/transaction-client";
 })
 export class DbService {
 
-  private storage: SQLiteObject;
+  private storage!: SQLiteObject;
   transactionCList: any = new BehaviorSubject([]);
   private isDbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
   constructor(
@@ -24,7 +23,7 @@ export class DbService {
     this.platform.ready().then(() => {
       this.sqlite
         .create({
-          name: 'positronx_db.db',
+          name: 'data.db',
           location: 'default',
         })
         .then((db: SQLiteObject) => {
@@ -36,7 +35,7 @@ export class DbService {
   dbState() {
     return this.isDbReady.asObservable();
   }
-  fetchSongs(): Observable<TransactionClient[]> {
+  fetchTransactionClients(): Observable<TransactionClient[]> {
     return this.transactionCList.asObservable();
   }
   // Render fake data
@@ -76,6 +75,7 @@ export class DbService {
           }
         }
         this.transactionCList.next(items);
+
       });
   }
   // Add
@@ -122,7 +122,7 @@ export class DbService {
       });
   }
   // Delete transacTionClient
-  deleteSong(id: any) {
+  deleteTransaction(id: any) {
     return this.storage
       .executeSql('DELETE FROM transactionClient WHERE id = ?', [id])
       .then((_) => {

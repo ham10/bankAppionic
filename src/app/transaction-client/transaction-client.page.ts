@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {DbService} from "@app/service/db.service";
+import {Router} from "@angular/router";
+import {ToastController} from "@ionic/angular";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-transaction-client',
@@ -7,9 +11,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TransactionClientPage implements OnInit {
 
-  constructor() { }
+  constructor( private db: DbService,
+               public formBuilder: FormBuilder,
+               private toast: ToastController,
+               private router: Router) { }
 
   ngOnInit() {
+
   }
 
-}
+    }
+
+
+
