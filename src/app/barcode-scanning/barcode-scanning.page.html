@@ -1,92 +1,128 @@
-<ion-card>
-  <div>
-  <img class="imgBarcode" src="https://media.istockphoto.com/id/1095468748/fr/vectoriel/code-qr-%C3%A9chantillon-de-code-bar-moderne-abstrait-vecteur-pour-smartphone-num%C3%A9risation.jpg?s=612x612&w=0&k=20&c=Sv3pYtLJyDfJwdYxEHvLQMDr-LG6ORCcue5KSy1ZViI=" />
-  </div>
-  <ion-card-content>
-    <ion-item lines="inset" *ngFor="let data of Data">
-      <ion-label>
-        <h5>{{data.typeTransaction}}</h5>
-        <p>{{data.montant}} {{data.dateTransaction}}</p>
-      </ion-label>
-    </ion-item>
-  </ion-card-content>
-</ion-card>
+
+<!--<ion-card>-->
+<!--  <div>-->
+<!--  <img class="imgBarcode" src="https://media.istockphoto.com/id/1095468748/fr/vectoriel/code-qr-%C3%A9chantillon-de-code-bar-moderne-abstrait-vecteur-pour-smartphone-num%C3%A9risation.jpg?s=612x612&w=0&k=20&c=Sv3pYtLJyDfJwdYxEHvLQMDr-LG6ORCcue5KSy1ZViI=" />-->
+<!--  </div>-->
+<!--  <ion-card-content>-->
+<!--    <ion-item lines="inset" *ngFor="let data of Data">-->
+<!--      <ion-label>-->
+<!--        <h5>{{data.typeTransaction}}</h5>-->
+<!--        <p>{{data.montant}} {{data.dateTransaction}}</p>-->
+<!--      </ion-label>-->
+<!--    </ion-item>-->
+<!--  </ion-card-content>-->
+<!--</ion-card>-->
+<!--<ion-header>-->
+<!--  <ion-toolbar color="primary">-->
+<!--    <ion-avatar>-->
+<!--    <img src="https://ionicframework.com/docs/img/demos/avatar.svg" align="right"/>-->
+<!--    </ion-avatar>-->
+<!--&lt;!&ndash;    <ion-title align="center" >Hamidou Sow</ion-title>&ndash;&gt;-->
+<!--  </ion-toolbar>-->
+<!--</ion-header>-->
+
+<!--<ion-content>-->
+
+<!--&lt;!&ndash;    <div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <ion-item>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;          <input [(ngModel)]="numeroPhone" name="numeroPhone"  id="numeroPhone" placeholder="Enter you number for New Transaction" />&ndash;&gt;&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;          <ion-fab-button (click)="recupNumForm()"  [routerLink]="['/depot-retrait-transfert']"color ="secondary" >&ndash;&gt;-->
+<!--&lt;!&ndash;            <app-depot-retrait-transfert  [numTel]="numString" ></app-depot-retrait-transfert>&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <ion-icon name="add"></ion-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;          </ion-fab-button>&ndash;&gt;-->
+<!--&lt;!&ndash;        </ion-item>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+
+<!--  <form [formGroup]="formGroup">-->
+<!--    <ion-input placeholder="Enter you number for New Transaction"></ion-input>-->
+<!--    <ion-button expand="block" (click)="scan()" [disabled]="!isSupported"-->
+<!--          >Scan</ion-button >-->
+
+<!--      </form>-->
+
+
+<!--  <ng-container *ngFor="let barcode of barcodes">-->
+<!--    <ion-card>-->
+<!--      <ion-card-content>-->
+<!--        <ion-item>-->
+<!--          <ion-label position="fixed">Bytes</ion-label>-->
+<!--          <ion-input-->
+<!--            type="text"-->
+<!--            readonly-->
+<!--            [value]="barcode.bytes?.toString() || ''"-->
+<!--          ></ion-input>-->
+<!--        </ion-item>-->
+<!--        <ion-item>-->
+<!--          <ion-label position="fixed">Corner Points</ion-label>-->
+<!--          <ion-input-->
+<!--            type="text"-->
+<!--            readonly-->
+<!--            [value]="barcode.cornerPoints?.toString() || ''"-->
+<!--          ></ion-input>-->
+<!--        </ion-item>-->
+<!--        <ion-item>-->
+<!--          <ion-label position="fixed">Display Value</ion-label>-->
+<!--          <ion-input-->
+<!--            type="text"-->
+<!--            readonly-->
+<!--            [value]="barcode.displayValue"-->
+<!--          ></ion-input>-->
+<!--        </ion-item>-->
+<!--        <ion-item>-->
+<!--          <ion-label position="fixed">Format</ion-label>-->
+<!--          <ion-input type="text" readonly [value]="barcode.format"></ion-input>-->
+<!--        </ion-item>-->
+<!--        <ion-item>-->
+<!--          <ion-label position="fixed">Raw Value</ion-label>-->
+<!--          <ion-input-->
+<!--            type="text"-->
+<!--            readonly-->
+<!--            [value]="barcode.rawValue"-->
+<!--          ></ion-input>-->
+<!--        </ion-item>-->
+<!--        <ion-item>-->
+<!--          <ion-label position="fixed">Value Type</ion-label>-->
+<!--          <ion-input-->
+<!--            type="text"-->
+<!--            readonly-->
+<!--            [value]="barcode.valueType"-->
+<!--          ></ion-input>-->
+<!--        </ion-item>-->
+<!--      </ion-card-content>-->
+<!--    </ion-card>-->
+<!--  </ng-container>-->
+<!--</ion-content>-->
+
+<!--deuxieme Template -->
+
+
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-avatar>
-    <img src="https://ionicframework.com/docs/img/demos/avatar.svg" align="right"/>
-    </ion-avatar>
-<!--    <ion-title align="center" >Hamidou Sow</ion-title>-->
+  <ion-toolbar>
+    <ion-title>Depot, Retrait,Transfert</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
+  <ion-button expand="block" (click)="openModal()">Payer avec Numero Telephone</ion-button>
+<!--  <p>{{ message }}</p>-->
+<form [formGroup]="formGroup">
+<!--      <ion-input placeholder="Enter you number for New Transaction"></ion-input>-->
+      <ion-button expand="block" (click)="scan()" [disabled]="!isSupported">
+           Scanner pour Payer</ion-button >
+        </form>
+  <ion-item lines="inset" *ngFor="let data of Data">
+    <ion-label>
+      <h5>{{data.typeTransaction}}</h5>
+      <p>{{data.montant}} {{data.dateTransaction}}  </p>
+    </ion-label>
+  </ion-item>
 
-      <form [formGroup]="formGroup">
-
-        <ion-item>
-          <ion-input placeholder="Enter you number for New Transaction">
-          </ion-input>
-            <ion-fab-button [routerLink]="['/depot-retrait-transfert']"color ="secondary" >
-              <ion-icon name="add"></ion-icon>
-            </ion-fab-button>
-        </ion-item>
-
-
-        <ion-button expand="block" (click)="scan()" [disabled]="!isSupported"
-          >Scan</ion-button >
-
-      </form>
-
-
-  <ng-container *ngFor="let barcode of barcodes">
-    <ion-card>
-      <ion-card-content>
-        <ion-item>
-          <ion-label position="fixed">Bytes</ion-label>
-          <ion-input
-            type="text"
-            readonly
-            [value]="barcode.bytes?.toString() || ''"
-          ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="fixed">Corner Points</ion-label>
-          <ion-input
-            type="text"
-            readonly
-            [value]="barcode.cornerPoints?.toString() || ''"
-          ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="fixed">Display Value</ion-label>
-          <ion-input
-            type="text"
-            readonly
-            [value]="barcode.displayValue"
-          ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="fixed">Format</ion-label>
-          <ion-input type="text" readonly [value]="barcode.format"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="fixed">Raw Value</ion-label>
-          <ion-input
-            type="text"
-            readonly
-            [value]="barcode.rawValue"
-          ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="fixed">Value Type</ion-label>
-          <ion-input
-            type="text"
-            readonly
-            [value]="barcode.valueType"
-          ></ion-input>
-        </ion-item>
-      </ion-card-content>
-    </ion-card>
-  </ng-container>
 </ion-content>
+
+
+
+
+

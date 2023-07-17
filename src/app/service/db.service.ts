@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import {BehaviorSubject, Observable} from "rxjs";
-import {Platform} from "@ionic/angular";
+import {NavController, Platform} from "@ionic/angular";
 import {HttpClient} from "@angular/common/http";
 import {SQLitePorter} from "@ionic-native/sqlite-porter/ngx";
 import {TransactionClient} from "@app/service/transaction-client";
@@ -18,7 +18,8 @@ export class DbService {
     private platform: Platform,
     private sqlite: SQLite,
     private httpClient: HttpClient,
-    private sqlPorter: SQLitePorter
+    private sqlPorter: SQLitePorter,
+    public navCtrl: NavController
   ) {
     this.platform.ready().then(() => {
       this.sqlite
@@ -69,7 +70,9 @@ export class DbService {
               montant: res.rows.item(i).montant,
               dateTransaction: res.rows.item(i).dateTransaction,
               qrCode: res.rows.item(i).qrCode,
-              numeroPhone:res.rows.item(i).numeroPhone
+              numeroPhone:res.rows.item(i).numeroPhone,
+              fees:res.rows.item(i).fees
+
 
             });
           }
@@ -79,11 +82,11 @@ export class DbService {
       });
   }
   // Add
-  addTransactionClientByNumber(numeroPhone: any,montant:any)  {
+  addTransactionClientByNumber(numeroPhone: any,montant:any,)  {
     let data = [numeroPhone, montant];
     return this.storage
       .executeSql(
-        'INSERT INTO transactionClient (id,client_email, client_name, client_password,typeTransaction,montant,dateTransaction,qrCode,numeroPhone) VALUES (?, ?,?,?,?,?,?,?)',
+        'INSERT INTO transactionClient (client_email, client_name, client_password,typeTransaction,montant,dateTransaction,qrCode,numeroPhone,fees) VALUES (?, ?,?,?,?,?,?,?,?)',
         data
       )
       .then((res) => {
@@ -104,8 +107,8 @@ export class DbService {
           montant: res.rows.item(0).montant,
           dateTransaction: res.rows.item(0).dateTransaction,
           qrCode: res.rows.item(0).qrCode,
-          numeroPhone:res.rows.item(0).numeroPhone
-
+          numeroPhone:res.rows.item(0).numeroPhone,
+          fees:res.rows.item(0).fees
         };
       });
   }
@@ -127,6 +130,22 @@ export class DbService {
       .executeSql('DELETE FROM transactionClient WHERE id = ?', [id])
       .then((_) => {
         this.getTransactionClient();
+      });
+  }
+  addTransByNumberAmount(client_email:any,client_name:any,client_password:any,typeTransaction:any,montant:any,dateTransaction:any,qrCode:any,numeroPhone:any,fees:any,)  {
+    let data = [client_email, client_name, client_password,typeTransaction,montant,dateTransaction,qrCode,numeroPhone,fees];
+
+    return this.storage
+      .executeSql(
+        'INSERT INTO transactionClient (client_email, client_name, client_password,typeTransaction,montant,dateTransaction,qrCode,numeroPhone,fees) VALUES (?, ?,?,?,?,?,?,?,?)',
+        data
+      )
+      .then((res) => {
+       // this.getTransactionClient();
+        this.navCtrl.navigateBack("/barcode-scanning").then(() => {
+          this.fetchTransactionClients();
+        });
+
       });
   }
 }

@@ -14,6 +14,10 @@ import {GlobalErrorHandlerService} from "@app/core";
 import {HttpClientModule} from "@angular/common/http";
 import {DbService} from "@app/service/db.service";
 import {BarcodeScanningModule} from "@app/barcode-scanning/barcode-scanning.module";
+import {BarcodeScanningPage} from "@app/barcode-scanning/barcode-scanning.page";
+import {DepotRetraitTransfertPage} from "@app/depot-retrait-transfert/depot-retrait-transfert.page";
+import {SQLitePorter} from "@ionic-native/sqlite-porter/ngx";
+import {SQLite} from "@ionic-native/sqlite/ngx";
 
 
 @NgModule({
@@ -31,6 +35,9 @@ import {BarcodeScanningModule} from "@app/barcode-scanning/barcode-scanning.modu
 
   providers: [
     FingerprintAIO,
+    SQLitePorter,
+    SQLite,
+    DbService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: ErrorHandler,

@@ -8,4 +8,6 @@ export class TransactionClient {
   dateTransaction!:string;
   qrCode!:string;
   numeroPhone!:string;
+  fees!: number;
+
 }

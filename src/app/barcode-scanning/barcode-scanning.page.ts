@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import { DialogService } from '@app/core';
 import {
@@ -9,7 +9,7 @@ import {
 } from '@capacitor-mlkit/barcode-scanning';
 import { FilePicker } from '@capawesome/capacitor-file-picker';
 import { BarcodeScanningModalComponent } from './barcode-scanning-modal.component';
-import {Platform, ToastController} from "@ionic/angular";
+import {ModalController, Platform, ToastController} from "@ionic/angular";
 import {SQLite, SQLiteObject} from "@ionic-native/sqlite/ngx";
 import {HttpClient} from "@angular/common/http";
 import {SQLitePorter} from "@ionic-native/sqlite-porter/ngx";
@@ -17,6 +17,7 @@ import {TransactionClient} from "@app/service/transaction-client";
 import {DbService} from "@app/service/db.service";
 import {Router} from "@angular/router";
 import { BehaviorSubject, Observable } from 'rxjs';
+import {DepotRetraitTransfertPage} from "@app/depot-retrait-transfert/depot-retrait-transfert.page";
 
 
 @Component({
@@ -25,6 +26,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   styleUrls: ['./barcode-scanning.page.scss'],
 })
 export class BarcodeScanningPage implements OnInit {
+  numeroPhone!:string;
   private storage!: SQLiteObject;
   transactionCList: any = new BehaviorSubject([]);
   private isDbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -46,6 +48,10 @@ export class BarcodeScanningPage implements OnInit {
   private readonly GH_URL =
     'https://github.com/capawesome-team/capacitor-barcode-scanning';
 
+    numString=this.numeroPhone;
+
+  message = 'This modal example uses the modalController to present and dismiss modals.';
+
   constructor(private readonly dialogService: DialogService,
               private platform: Platform,
               private sqlite: SQLite,
@@ -55,7 +61,8 @@ export class BarcodeScanningPage implements OnInit {
               private db: DbService,
               public formBuilder: FormBuilder,
               private toast: ToastController,
-              private router: Router) {
+              private router: Router,
+              private modalCtrl: ModalController) {
     this.platform.ready().then(() => {
     this.sqlite
       .create({
@@ -104,7 +111,8 @@ export class BarcodeScanningPage implements OnInit {
               montant: res.rows.item(i).montant,
               dateTransaction: res.rows.item(i).dateTransaction,
               qrCode: res.rows.item(i).qrCode,
-              numeroPhone:res.rows.item(i).numeroPhone
+              numeroPhone:res.rows.item(i).numeroPhone,
+              fees:res.rows.item(i).fees,
 
             });
           }
@@ -117,7 +125,7 @@ export class BarcodeScanningPage implements OnInit {
     let data = [numeroPhone, montant];
     return this.storage
       .executeSql(
-        'INSERT INTO transactionClient (id,client_email, client_name, client_password,typeTransaction,montant,dateTransaction,qrCode,numeroPhone) VALUES (?, ?,?,?,?,?,?,?)',
+        'INSERT INTO transactionClient (id,client_email, client_name, client_password,typeTransaction,montant,dateTransaction,qrCode,numeroPhone,fees) VALUES (?, ?,?,?,?,?,?,?,?)',
         data
       )
       .then((res) => {
@@ -138,7 +146,9 @@ export class BarcodeScanningPage implements OnInit {
           montant: res.rows.item(0).montant,
           dateTransaction: res.rows.item(0).dateTransaction,
           qrCode: res.rows.item(0).qrCode,
-          numeroPhone:res.rows.item(0).numeroPhone
+          numeroPhone:res.rows.item(0).numeroPhone,
+          fees:res.rows.item(0).fees,
+
 
         };
       });
@@ -165,6 +175,7 @@ export class BarcodeScanningPage implements OnInit {
   }
 
   public ngOnInit(): void {
+
     BarcodeScanner.isSupported().then((result) => {
       this.isSupported = result.supported;
     });
@@ -187,8 +198,8 @@ export class BarcodeScanningPage implements OnInit {
       montant:[''],
       numero:[''],
       date:[''],
-      qrcode:['']
-
+      qrcode:[''],
+      fees:['']
     })
   }
 
@@ -247,4 +258,24 @@ export class BarcodeScanningPage implements OnInit {
   public openOnGithub(): void {
     window.open(this.GH_URL, '_blank');
   }
+
+  recupNumForm(){
+    console.log(this.numeroPhone);
+  }
+
+  async openModal() {
+    const modal = await this.modalCtrl.create({
+      component: DepotRetraitTransfertPage,
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.message = `Hello, ${data}!`;
+    }
+  }
+
+
+
 }
