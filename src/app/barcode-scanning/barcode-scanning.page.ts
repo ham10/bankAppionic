@@ -18,6 +18,7 @@ import {DbService} from "@app/service/db.service";
 import {Router} from "@angular/router";
 import { BehaviorSubject, Observable } from 'rxjs';
 import {DepotRetraitTransfertPage} from "@app/depot-retrait-transfert/depot-retrait-transfert.page";
+import {RetraitPage} from "@app/retrait/retrait.page";
 
 
 @Component({
@@ -266,6 +267,18 @@ export class BarcodeScanningPage implements OnInit {
   async openModal() {
     const modal = await this.modalCtrl.create({
       component: DepotRetraitTransfertPage,
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.message = `Hello, ${data}!`;
+    }
+  }
+  async openModalRetrait() {
+    const modal = await this.modalCtrl.create({
+      component: RetraitPage,
     });
     modal.present();
 

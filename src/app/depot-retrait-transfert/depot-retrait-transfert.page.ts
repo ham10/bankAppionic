@@ -12,50 +12,51 @@ import {Router} from "@angular/router";
   styleUrls: ['./depot-retrait-transfert.page.scss'],
 })
 export class DepotRetraitTransfertPage implements OnInit {
-  @Input() numTel!:string;
+  @Input() numTel!: string;
   name!: string;
   mainForm!: FormGroup;
-  numeroPhone!:string;
-  montant!:string;
-  fees!:string;
+  numeroPhone!: string;
+  montant!: string;
+  fees!: number;
   Data: any[] = [];
-  DprPreview$!: Observable <TransactionClient>;
+  DprPreview$!: Observable<TransactionClient>;
+
   constructor(private modalCtrl: ModalController,
               public formBuilder: FormBuilder,
               private db: DbService,
               private router: Router
-              ) { }
+  ) {
+  }
 
-  ngOnInit():void {
+  ngOnInit(): void {
     this.mainForm = this.formBuilder.group({
-      numeroPhone:[''],
-      email:[''],
-      name:[''],
-      password:[''],
-      typeTransaction:[''],
-      montant:[''],
-      numero:[''],
-      date:[''],
-      qrcode:[''],
-      fees:0
+      numeroPhone: [''],
+      email: [''],
+      name: [''],
+      password: [''],
+      typeTransaction: [''],
+      montant: [''],
+      numero: [''],
+      date: [''],
+      qrcode: [''],
+      fees: 0
     })
-    this.DprPreview$= this.mainForm.valueChanges.pipe(
-      map (formValue => ({
+    this.DprPreview$ = this.mainForm.valueChanges.pipe(
+      map(formValue => ({
           ...formValue,
-        numeroPhone:[''],
-        email:[''],
-        name:[''],
-        password:[''],
-        typeTransaction:[''],
-        montant:[''],
-        numero:[''],
-        date:[''],
-        qrcode:[''],
-        fees:0
+          numeroPhone: [''],
+          email: [''],
+          name: [''],
+          password: [''],
+          typeTransaction: [''],
+          montant: [''],
+          numero: [''],
+          date: [''],
+          qrcode: [''],
+          fees: 0
         })
-
       )
-    ) ;
+    );
   }
 
   cancel() {
@@ -65,6 +66,7 @@ export class DepotRetraitTransfertPage implements OnInit {
   confirm() {
     return this.modalCtrl.dismiss(this.name, 'confirm');
   }
+
   storeData() {
     this.db.addTransByNumberAmount(
       'ham@outlook.fr',
@@ -76,13 +78,13 @@ export class DepotRetraitTransfertPage implements OnInit {
       'erfgthjklm',
       this.mainForm.value.numeroPhone,
       this.mainForm.value.fees,
-
     ).then((res) => {
       this.mainForm.reset();
-  console.log('Data bien Enregistree');
+      console.log('Data bien Enregistree');
     })
 
   }
+
   // storeDataObservable(){
   //   this.db.addTransByNumberAmount(
   //     'ham@outlook.fr',
@@ -96,6 +98,15 @@ export class DepotRetraitTransfertPage implements OnInit {
   //     this.mainForm.value.fees)
   //
   // }
+inputDepot(event:any) {
+    this.montant=event.target.value;
+    let montant= this.montant?parseFloat(this.montant):0;
+    this.fees= montant * 0.0;
+  }
+  inputFrais(event:any){
+    this.montant=event.target.value;
+    let montant=this.montant?parseFloat(this.montant):0;
+    this.fees= montant * 0.001;
 
-
+  }
 }

@@ -106,7 +106,9 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-button expand="block" (click)="openModal()">Payer avec Numero Telephone</ion-button>
+  <ion-button expand="block" (click)="openModal()">Depot avec Numero Telephone</ion-button>
+  <ion-button expand="block" color="success"(click)="openModalRetrait()">Retrait avec Numero Telephone</ion-button>
+  <ion-button expand="block" color="danger"(click)="openModal()">Transfert avec Numero Telephone</ion-button>
 <!--  <p>{{ message }}</p>-->
 <form [formGroup]="formGroup">
 <!--      <ion-input placeholder="Enter you number for New Transaction"></ion-input>-->

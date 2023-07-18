@@ -34,6 +34,10 @@ const routes: Routes = [
     path: 'depot-retrait-transfert',
     loadChildren: () => import('./depot-retrait-transfert/depot-retrait-transfert.module').then( m => m.DepotRetraitTransfertPageModule)
   },
+  {
+    path: 'retrait',
+    loadChildren: () => import('./retrait/retrait.module').then( m => m.RetraitPageModule)
+  },
 
 ];
 
