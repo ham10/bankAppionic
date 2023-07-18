@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title aligne="center">Welcome</ion-title>
+    <!--    <ion-buttons slot="end">-->
+    <!--      <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>-->
+    <!--    </ion-buttons>-->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form (ngSubmit)="storeDataR()">
+    <ion-item>
+      <ion-input labelPlacement="stacked" name="numeroPhone"    [(ngModel)]="numeroPhone"  placeholder="Your Number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input labelPlacement="stacked" name="montant" [(ngModel)]="montant" (input)="inputRetrait($event)" placeholder="Your Amount"></ion-input>
+    </ion-item>
+    <ion-item >
+      <ion-input  labelPlacement="stacked" name="fees" [(ngModel)]="fees"  name="fees" placeholder="Your Fees" readonly="true"></ion-input>
+
+    </ion-item>
+    <p></p>
+    <p></p>
+    <p></p>
+    <!-- <ion-button type="submit" expand="block" color="primary" >Depots</ion-button>
+   <p></p>
+   <p></p>
+   <ion-button  expand="block"align="right" color="danger">Transfert</ion-button>
+   <p></p>
+   <p></p>-->
+   <ion-button  expand="block"align="right" color="success">Retrait</ion-button>
+ </form>
+</ion-content>
