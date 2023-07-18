@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ModalController} from "@ionic/angular";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, NgForm} from "@angular/forms";
 import {DbService} from "@app/service/db.service";
 import {map, Observable,pipe} from "rxjs";
 import {TransactionClient} from "@app/service/transaction-client";
@@ -19,7 +19,8 @@ export class DepotRetraitTransfertPage implements OnInit {
   montant!: string;
   fees!: number;
   Data: any[] = [];
-  DprPreview$!: Observable<TransactionClient>;
+  togleV!: string;
+  @ViewChild('depositForm') depositForm!: NgForm;
 
   constructor(private modalCtrl: ModalController,
               public formBuilder: FormBuilder,
@@ -41,22 +42,7 @@ export class DepotRetraitTransfertPage implements OnInit {
       qrcode: [''],
       fees: 0
     })
-    this.DprPreview$ = this.mainForm.valueChanges.pipe(
-      map(formValue => ({
-          ...formValue,
-          numeroPhone: [''],
-          email: [''],
-          name: [''],
-          password: [''],
-          typeTransaction: [''],
-          montant: [''],
-          numero: [''],
-          date: [''],
-          qrcode: [''],
-          fees: 0
-        })
-      )
-    );
+      console.log(this.depositForm.value.numeroPhone);
   }
 
   cancel() {
@@ -73,14 +59,14 @@ export class DepotRetraitTransfertPage implements OnInit {
       'Hamidou',
       '',
       'Depot',
-      this.mainForm.value.montant,
+      this.montant,
       '17/03/1986',
       'erfgthjklm',
-      this.mainForm.value.numeroPhone,
-      this.mainForm.value.fees,
+      this.numeroPhone,
+      this.fees,
     ).then((res) => {
-      this.mainForm.reset();
-      console.log('Data bien Enregistree');
+     // this.depositForm.resetForm();
+      console.log('Data bien En registree');
     })
 
   }
@@ -99,9 +85,13 @@ export class DepotRetraitTransfertPage implements OnInit {
   //
   // }
 inputDepot(event:any) {
+  if (this.togleV) {
+    this.fees= 0;
+  } else {
     this.montant=event.target.value;
-    let montant= this.montant?parseFloat(this.montant):0;
-    this.fees= montant * 0.0;
+    let montant=this.montant?parseFloat(this.montant):0;
+    this.fees= montant * 0.00;
+  }
   }
   inputFrais(event:any){
     this.montant=event.target.value;
@@ -109,4 +99,5 @@ inputDepot(event:any) {
     this.fees= montant * 0.001;
 
   }
+
 }

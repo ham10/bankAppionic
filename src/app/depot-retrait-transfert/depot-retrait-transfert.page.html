@@ -52,7 +52,8 @@
     <ion-buttons slot="start">
       <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
     </ion-buttons>
-    <ion-title aligne="center">Welcome</ion-title>
+    <ion-title class="ion-titleCss" aligne="center">Depot</ion-title>
+
 <!--    <ion-buttons slot="end">-->
 <!--      <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>-->
 <!--    </ion-buttons>-->
@@ -60,21 +61,24 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form (ngSubmit)="storeData()">
+  <form #depositForm (ngSubmit)="storeData()">
+    <ion-item>
+      <ion-toggle labelPlacement="fixed" aria-label="Secondary toggle" color="primary" name="togleV" [(ngModel)]="togleV" [checked]="togleV" (ionchange)="inputDepot($event)" >frais inclu</ion-toggle>
+    </ion-item>
   <ion-item>
-    <ion-input labelPlacement="stacked" name="numeroPhone"    [(ngModel)]="numeroPhone"  placeholder="Your Number"></ion-input>
+    <ion-input labelPlacement="stacked" name="numeroPhone"    [(ngModel)]="numeroPhone"  id="numeroPhone" placeholder="Your Number"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-input labelPlacement="stacked" name="montant" [(ngModel)]="montant" (input)="inputDepot($event)" placeholder="Your Amount"></ion-input>
+    <ion-input labelPlacement="stacked" name="montant" id="montant" [(ngModel)]="montant" (input)="inputDepot($event)"  placeholder="Your Amount"></ion-input>
   </ion-item>
   <ion-item >
-    <ion-input  labelPlacement="stacked" name="fees" [(ngModel)]="fees"  name="fees" placeholder="Your Fees" readonly="true"></ion-input>
+    <ion-input  labelPlacement="stacked" name="fees" id="fees" [(ngModel)]="fees"  name="fees" placeholder="Your Fees" readonly="true"></ion-input>
 
   </ion-item>
   <p></p>
   <p></p>
   <p></p>
-  <ion-button type="submit" expand="block" color="primary" >Depots</ion-button>
+  <ion-button type="submit" expand="block" color="primary" >Deposit</ion-button>
   <p></p>
   <p></p>
     <!--  <ion-button  expand="block"align="right" color="danger">Transfert</ion-button>

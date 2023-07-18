@@ -38,6 +38,10 @@ const routes: Routes = [
     path: 'retrait',
     loadChildren: () => import('./retrait/retrait.module').then( m => m.RetraitPageModule)
   },
+  {
+    path: 'details',
+    loadChildren: () => import('./details/details.module').then( m => m.DetailsPageModule)
+  },
 
 ];
 

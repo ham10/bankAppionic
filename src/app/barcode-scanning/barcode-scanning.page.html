@@ -101,24 +101,28 @@
 
 <ion-header>
   <ion-toolbar>
-    <ion-title>Depot, Retrait,Transfert</ion-title>
+    <ion-title align="center">Depositt, withdraw,Transfert</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-button expand="block" (click)="openModal()">Depot avec Numero Telephone</ion-button>
-  <ion-button expand="block" color="success"(click)="openModalRetrait()">Retrait avec Numero Telephone</ion-button>
-  <ion-button expand="block" color="danger"(click)="openModal()">Transfert avec Numero Telephone</ion-button>
+  <ion-button expand="block" (click)="openModal()">Deposit with number</ion-button>
+  <p></p>
+  <ion-button expand="block" color="secondary"(click)="openModalRetrait()">withdraw with number</ion-button>
+  <p></p>
+  <ion-button expand="block" color="tertiary"(click)="openModal()">Transfer with number</ion-button>
+  <p></p>
 <!--  <p>{{ message }}</p>-->
 <form [formGroup]="formGroup">
 <!--      <ion-input placeholder="Enter you number for New Transaction"></ion-input>-->
       <ion-button expand="block" (click)="scan()" [disabled]="!isSupported">
            Scanner pour Payer</ion-button >
         </form>
-  <ion-item lines="inset" *ngFor="let data of Data">
+  <ion-item detail (click)="openModalDetail()" lines="inset" *ngFor="let data of Data">
     <ion-label>
       <h5>{{data.typeTransaction}}</h5>
       <p>{{data.montant}} {{data.dateTransaction}}  </p>
+
     </ion-label>
   </ion-item>
 

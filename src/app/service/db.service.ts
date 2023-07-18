@@ -5,6 +5,7 @@ import {NavController, Platform} from "@ionic/angular";
 import {HttpClient} from "@angular/common/http";
 import {SQLitePorter} from "@ionic-native/sqlite-porter/ngx";
 import {TransactionClient} from "@app/service/transaction-client";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class DbService {
   transactionCList: any = new BehaviorSubject([]);
   private isDbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
   constructor(
+    private router: Router,
     private platform: Platform,
     private sqlite: SQLite,
     private httpClient: HttpClient,
@@ -142,10 +144,11 @@ export class DbService {
       )
       .then((res) => {
        // this.getTransactionClient();
-        this.navCtrl.navigateBack("/barcode-scanning").then(() => {
-          this.fetchTransactionClients();
-        });
-
+       //  this.navCtrl.navigateBack("/barcode-scanning").then(() => {
+       //    this.fetchTransactionClients();
+       //  });
+      this.router.navigateByUrl('/barcode-scanning');
+        this.fetchTransactionClients();
       });
   }
 }

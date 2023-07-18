@@ -3,15 +3,19 @@
     <ion-buttons slot="start">
       <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
     </ion-buttons>
-    <ion-title aligne="center">Welcome</ion-title>
+    <ion-title class="ion-titleCss" aligne="center">Retrait</ion-title>
     <!--    <ion-buttons slot="end">-->
     <!--      <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>-->
     <!--    </ion-buttons>-->
   </ion-toolbar>
 </ion-header>
+   <p></p>
 
-<ion-content class="ion-padding">
-  <form (ngSubmit)="storeDataR()">
+<ion-content  class="ion-padding">
+  <ion-item>
+  <ion-toggle labelPlacement="fixed" aria-label="Secondary toggle" color="success"[(ngModel)]="togleV" [checked]="togleV" (ionchange)="inputRetrait($event)" >frais inclu</ion-toggle>
+  </ion-item>
+  <form #retraitForm (ngSubmit)="storeDataR()">
     <ion-item>
       <ion-input labelPlacement="stacked" name="numeroPhone"    [(ngModel)]="numeroPhone"  placeholder="Your Number"></ion-input>
     </ion-item>
@@ -31,6 +35,6 @@
    <ion-button  expand="block"align="right" color="danger">Transfert</ion-button>
    <p></p>
    <p></p>-->
-   <ion-button  expand="block"align="right" color="success">Retrait</ion-button>
+   <ion-button (click)="presentAlert()" type="submit" expand="block"align="right" color="success">Retrait</ion-button>
  </form>
 </ion-content>

@@ -19,6 +19,7 @@ import {Router} from "@angular/router";
 import { BehaviorSubject, Observable } from 'rxjs';
 import {DepotRetraitTransfertPage} from "@app/depot-retrait-transfert/depot-retrait-transfert.page";
 import {RetraitPage} from "@app/retrait/retrait.page";
+import {DetailsPage} from "@app/details/details.page";
 
 
 @Component({
@@ -288,7 +289,24 @@ export class BarcodeScanningPage implements OnInit {
       this.message = `Hello, ${data}!`;
     }
   }
+  async openModalDetail() {
+    const modal = await this.modalCtrl.create({
+      component: DetailsPage,
+      componentProps:{
+
+      }
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.message = `Hello, ${data}!`;
+    }
+  }
 
 
-
+  async canDismiss(data?: any, role?: string) {
+    return role !== 'gesture';
+  }
 }
