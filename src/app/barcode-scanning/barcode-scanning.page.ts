@@ -20,6 +20,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import {DepotRetraitTransfertPage} from "@app/depot-retrait-transfert/depot-retrait-transfert.page";
 import {RetraitPage} from "@app/retrait/retrait.page";
 import {DetailsPage} from "@app/details/details.page";
+import {TransfertPage} from "@app/transfert/transfert.page";
 
 
 @Component({
@@ -59,7 +60,6 @@ export class BarcodeScanningPage implements OnInit {
               private sqlite: SQLite,
               private httpClient: HttpClient,
               private sqlPorter: SQLitePorter,
-
               private db: DbService,
               public formBuilder: FormBuilder,
               private toast: ToastController,
@@ -115,6 +115,12 @@ export class BarcodeScanningPage implements OnInit {
               qrCode: res.rows.item(i).qrCode,
               numeroPhone:res.rows.item(i).numeroPhone,
               fees:res.rows.item(i).fees,
+              nameSender: res.rows.item(i).nameSender,
+              surnameSender: res.rows.item(i).surnameSender,
+              numeroPhoneB: res.rows.item(i).numeroPhoneB,
+              nameB:res.rows.item(i).nameB,
+              surnameB:res.rows.item(i).surnameB
+
 
             });
           }
@@ -150,8 +156,11 @@ export class BarcodeScanningPage implements OnInit {
           qrCode: res.rows.item(0).qrCode,
           numeroPhone:res.rows.item(0).numeroPhone,
           fees:res.rows.item(0).fees,
-
-
+          nameSender: res.rows.item(0).nameSender,
+          surnameSender: res.rows.item(0).surnameSender,
+          numeroPhoneB: res.rows.item(0).numeroPhoneB,
+          nameB:res.rows.item(0).nameB,
+          surnameB:res.rows.item(0).surnameB
         };
       });
   }
@@ -203,6 +212,7 @@ export class BarcodeScanningPage implements OnInit {
       qrcode:[''],
       fees:['']
     })
+    this.db.fetchTransactionClients();
   }
 
   public async startScan(): Promise<void> {
@@ -278,35 +288,48 @@ export class BarcodeScanningPage implements OnInit {
     }
   }
   async openModalRetrait() {
-    const modal = await this.modalCtrl.create({
-      component: RetraitPage,
-    });
+    const modal = await this.modalCtrl.create({component: RetraitPage,});
     modal.present();
-
-    const { data, role } = await modal.onWillDismiss();
-
-    if (role === 'confirm') {
-      this.message = `Hello, ${data}!`;
+    const { data } = await modal.onDidDismiss();
+    if (data) {
+      this.db.fetchTransactionClients();
     }
+    // return await modal.present();
+
+  }
+  async openModalTransfert() {
+    const modal = await this.modalCtrl.create({component: TransfertPage,});
+    modal.present();
+    const { data } = await modal.onDidDismiss();
+    if (data) {
+      this.db.fetchTransactionClients();
+    }
+    // return await modal.present();
+
   }
   async openModalDetail() {
     const modal = await this.modalCtrl.create({
       component: DetailsPage,
       componentProps:{
-
+        Data:this.Data
       }
     });
     modal.present();
 
-    const { data, role } = await modal.onWillDismiss();
-
-    if (role === 'confirm') {
-      this.message = `Hello, ${data}!`;
-    }
   }
-
+  handleData(ids: string[]){
+    this.Data = ids;
+  }
 
   async canDismiss(data?: any, role?: string) {
     return role !== 'gesture';
+  }
+  handleRefresh(event:any) {
+    this.db.fetchTransactionClients();
+    setTimeout(() => {
+      // Any calls to load data go here
+      event.target.complete();
+    }, 2000);
+
   }
 }

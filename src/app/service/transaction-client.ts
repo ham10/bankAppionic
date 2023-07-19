@@ -9,5 +9,10 @@ export class TransactionClient {
   qrCode!:string;
   numeroPhone!:string;
   fees!: number;
+  nameSender!: string;
+  surnameSender!: string;
+  numeroPhoneB!: string;
+  nameB!: string;
+  surnameB!: string;
 
 }

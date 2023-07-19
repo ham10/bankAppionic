@@ -101,16 +101,19 @@
 
 <ion-header>
   <ion-toolbar>
-    <ion-title align="center">Depositt, withdraw,Transfert</ion-title>
+    <ion-title align="center">Deposit, withdraw,Transfert</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-button expand="block" (click)="openModal()">Deposit with number</ion-button>
   <p></p>
   <ion-button expand="block" color="secondary"(click)="openModalRetrait()">withdraw with number</ion-button>
   <p></p>
-  <ion-button expand="block" color="tertiary"(click)="openModal()">Transfer with number</ion-button>
+  <ion-button expand="block" color="tertiary"(click)="openModalTransfert()">Transfer with number</ion-button>
   <p></p>
 <!--  <p>{{ message }}</p>-->
 <form [formGroup]="formGroup">
@@ -118,10 +121,11 @@
       <ion-button expand="block" (click)="scan()" [disabled]="!isSupported">
            Scanner pour Payer</ion-button >
         </form>
-  <ion-item detail (click)="openModalDetail()" lines="inset" *ngFor="let data of Data">
+  <ion-item detail (onChange)="handleData(data.id)" (click)="openModalDetail()" lines="inset" *ngFor="let data of Data">
     <ion-label>
-      <h5>{{data.typeTransaction}}</h5>
-      <p>{{data.montant}} {{data.dateTransaction}}  </p>
+      <h5>{{data.typeTransaction}} </h5>
+      <p>{{data.montant}} Date {{data.dateTransaction}}  </p>
+
 
     </ion-label>
   </ion-item>

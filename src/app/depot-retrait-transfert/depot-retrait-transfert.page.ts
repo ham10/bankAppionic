@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {ModalController} from "@ionic/angular";
+import {AlertController, ModalController} from "@ionic/angular";
 import {FormBuilder, FormGroup, NgForm} from "@angular/forms";
 import {DbService} from "@app/service/db.service";
 import {map, Observable,pipe} from "rxjs";
@@ -25,7 +25,8 @@ export class DepotRetraitTransfertPage implements OnInit {
   constructor(private modalCtrl: ModalController,
               public formBuilder: FormBuilder,
               private db: DbService,
-              private router: Router
+              private router: Router,
+              private alertController: AlertController
   ) {
   }
 
@@ -49,9 +50,9 @@ export class DepotRetraitTransfertPage implements OnInit {
     return this.modalCtrl.dismiss(null, 'cancel');
   }
 
-  confirm() {
-    return this.modalCtrl.dismiss(this.name, 'confirm');
-  }
+  // confirm() {
+  //   return this.modalCtrl.dismiss(this.name, 'confirm');
+  // }
 
   storeData() {
     this.db.addTransByNumberAmount(
@@ -67,7 +68,9 @@ export class DepotRetraitTransfertPage implements OnInit {
     ).then((res) => {
      // this.depositForm.resetForm();
       console.log('Data bien En registree');
-    })
+    }).catch(e => {
+      console.log(e);
+    });
 
   }
 
@@ -98,6 +101,18 @@ inputDepot(event:any) {
     let montant=this.montant?parseFloat(this.montant):0;
     this.fees= montant * 0.001;
 
+  }
+  async presentAlertD() {
+    const alert = await this.alertController.create({
+      header: 'Depot',
+      subHeader: '',
+      message: 'Depot effectué avec succes!',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+    this.modalCtrl.dismiss(this.name, 'presentAlertD');
+    this.db.fetchTransactionClients();
   }
 
 }

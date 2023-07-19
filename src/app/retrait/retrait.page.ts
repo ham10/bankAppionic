@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {AlertController, ModalController} from "@ionic/angular";
 import {FormGroup, NgForm} from "@angular/forms";
 import {DbService} from "@app/service/db.service";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-retrait',
@@ -27,9 +28,9 @@ export class RetraitPage implements OnInit {
     return this.modalCtrl.dismiss(null, 'cancel');
   }
 
-  confirm() {
-    return this.modalCtrl.dismiss(this.name, 'confirm');
-  }
+  // presentAlert() {
+  //   return this.modalCtrl.dismiss(this.name, 'presentAlert');
+  // }
 
   inputRetrait(event:any) {
     if (this.togleV) {
@@ -59,15 +60,16 @@ export class RetraitPage implements OnInit {
     })
   }
 
-  async presentAlert() {
+  async presentAlertRetr() {
     const alert = await this.alertController.create({
       header: 'Retrait',
       subHeader: '',
       message: 'Retrait effectué avec succes!',
       buttons: ['OK'],
     });
-
     await alert.present();
+    this.db.fetchTransactionClients();
+     this.modalCtrl.dismiss(this.name, 'presentAlertRetr');
   }
 
 

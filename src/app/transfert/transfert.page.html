@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title class="ion-titleCss" aligne="center">Transferer</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content  class="ion-padding">
+  <form #transfertForm (ngSubmit)="storeDatatTransfert()">
+      <ion-label>Sender</ion-label>
+  <ion-item>
+    <ion-toggle labelPlacement="fixed" aria-label="Secondary toggle" color="tertiary" [(ngModel)]="togleV" name="togleV" [checked]="togleV" (ionchange)="inputRetrait($event)"  >frais inclu</ion-toggle>
+  </ion-item>
+      <ion-item>
+        <ion-input labelPlacement="stacked" name="numeroPhone"  [(ngModel)]="numeroPhone"    placeholder=" Number Sender"></ion-input>
+      </ion-item>
+  <ion-item>
+    <ion-input labelPlacement="stacked" name="nameSender" [(ngModel)]="nameSender"   placeholder="Name Sender"></ion-input>
+  </ion-item>
+      <ion-item>
+        <ion-input labelPlacement="stacked" name="montant" (input)="inputRetrait($event)" [(ngModel)]="montant"placeholder="Amount"></ion-input>
+      </ion-item>
+      <ion-item>
+  <ion-input  labelPlacement="stacked" name="fees"  [(ngModel)]="fees" name="fees" placeholder="Your Fees" readonly="true"></ion-input>
+</ion-item>
+      <ion-label>Beneficiary</ion-label>
+
+    <ion-item>
+      <ion-input labelPlacement="stacked" name="numeroPhoneB"   [(ngModel)]="numeroPhoneB"  placeholder=" Number Beneficiary"></ion-input>
+    </ion-item>
+  <ion-item>
+    <ion-input labelPlacement="stacked" name="nameB"   [(ngModel)]="nameB"  placeholder=" Name Beneficiary "></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input labelPlacement="stacked" name="surnameB"  [(ngModel)]="surnameB"   placeholder="SurName beneficiary"></ion-input>
+  </ion-item>
+  <ion-button  type="submit"  (click)="presentAlertTr()" expand="block"align="right" color="tertiary">Transferer </ion-button>
+  </form>
+ </ion-content>
+
+

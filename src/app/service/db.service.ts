@@ -73,7 +73,12 @@ export class DbService {
               dateTransaction: res.rows.item(i).dateTransaction,
               qrCode: res.rows.item(i).qrCode,
               numeroPhone:res.rows.item(i).numeroPhone,
-              fees:res.rows.item(i).fees
+              fees:res.rows.item(i).fees,
+              nameSender: res.rows.item(i).nameSender,
+              surnameSender: res.rows.item(i).surnameSender,
+              numeroPhoneB: res.rows.item(i).numeroPhoneB,
+              nameB:res.rows.item(i).nameB,
+              surnameB:res.rows.item(i).surnameB
 
 
             });
@@ -84,17 +89,17 @@ export class DbService {
       });
   }
   // Add
-  addTransactionClientByNumber(numeroPhone: any,montant:any,)  {
-    let data = [numeroPhone, montant];
-    return this.storage
-      .executeSql(
-        'INSERT INTO transactionClient (client_email, client_name, client_password,typeTransaction,montant,dateTransaction,qrCode,numeroPhone,fees) VALUES (?, ?,?,?,?,?,?,?,?)',
-        data
-      )
-      .then((res) => {
-        this.getTransactionClient();
-      });
-  }
+  // addTransactionClientByNumber(numeroPhone: any,montant:any,)  {
+  //   let data = [numeroPhone, montant];
+  //   return this.storage
+  //     .executeSql(
+  //       'INSERT INTO transactionClient (client_email, client_name, client_password,typeTransaction,montant,dateTransaction,qrCode,numeroPhone,fees) VALUES (?, ?,?,?,?,?,?,?,?)',
+  //       data
+  //     )
+  //     .then((res) => {
+  //       this.getTransactionClient();
+  //     });
+  // }
   // Get single transactionById
   getOneTransaction(id: any): Promise<TransactionClient> {
     return this.storage
@@ -110,7 +115,12 @@ export class DbService {
           dateTransaction: res.rows.item(0).dateTransaction,
           qrCode: res.rows.item(0).qrCode,
           numeroPhone:res.rows.item(0).numeroPhone,
-          fees:res.rows.item(0).fees
+          fees:res.rows.item(0).fees,
+          nameSender: res.rows.item(0).nameSender,
+          surnameSender: res.rows.item(0).surnameSender,
+          numeroPhoneB: res.rows.item(0).numeroPhoneB,
+          nameB:res.rows.item(0).nameB,
+          surnameB:res.rows.item(0).surnameB
         };
       });
   }
@@ -139,7 +149,7 @@ export class DbService {
 
     return this.storage
       .executeSql(
-        'INSERT INTO transactionClient (client_email, client_name, client_password,typeTransaction,montant,dateTransaction,qrCode,numeroPhone,fees) VALUES (?, ?,?,?,?,?,?,?,?)',
+        'INSERT INTO transactionClient (client_email, client_name, client_password,typeTransaction,montant,dateTransaction,qrCode,numeroPhone,fees,nameSender,surnameSender,numerophoneB,nameB,surnameB) VALUES (?, ?,?,?,?,?,?,?,?,?,?,?,?,?)',
         data
       )
       .then((res) => {
@@ -151,4 +161,24 @@ export class DbService {
         this.fetchTransactionClients();
       });
   }
+
+  addTransactionTransfert(client_email:any,client_name:any,client_password:any,typeTransaction:any,montant:any,dateTransaction:any,qrCode:any,numeroPhone:any,fees:any,nameSender:any,surnameSender:any ,numerophoneB:any,nameB:any,surnameB:any )  {
+    let data = [client_email, client_name, client_password,typeTransaction,montant,dateTransaction,qrCode,numeroPhone,fees,nameSender,surnameSender,numerophoneB,nameB,surnameB];
+
+    return this.storage
+      .executeSql(
+        'INSERT INTO transactionClient (client_email, client_name, client_password,typeTransaction,montant,dateTransaction,qrCode,numeroPhone,fees,nameSender,surnameSender,numerophoneB,nameB,surnameB) VALUES (?, ?,?,?,?,?,?,?,?,?,?,?,?,?)',
+        data
+      )
+      .then((res) => {
+        // this.getTransactionClient();
+        //  this.navCtrl.navigateBack("/barcode-scanning").then(() => {
+        //    this.fetchTransactionClients();
+        //  });
+        this.router.navigateByUrl('/barcode-scanning');
+        this.fetchTransactionClients();
+      });
+  }
+
+
 }
