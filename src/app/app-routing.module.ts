@@ -46,6 +46,10 @@ const routes: Routes = [
     path: 'transfert',
     loadChildren: () => import('./transfert/transfert.module').then( m => m.TransfertPageModule)
   },
+  {
+    path: 'home-transaction',
+    loadChildren: () => import('./home-transaction/home-transaction.module').then( m => m.HomeTransactionPageModule)
+  },
 
 ];
 

@@ -121,7 +121,7 @@
       <ion-button expand="block" (click)="scan()" [disabled]="!isSupported">
            Scanner pour Payer</ion-button >
         </form>
-  <ion-item detail (onChange)="handleData(data.id)" (click)="openModalDetail()" lines="inset" *ngFor="let data of Data">
+  <ion-item detail  (click)="openModalDetail(Data)" lines="inset" *ngFor="let data of Data">
     <ion-label>
       <h5>{{data.typeTransaction}} </h5>
       <p>{{data.montant}} Date {{data.dateTransaction}}  </p>

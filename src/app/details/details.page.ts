@@ -6,7 +6,7 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./details.page.scss'],
 })
 export class DetailsPage implements OnInit {
-  @Input() Data = [];
+
   typeTransaction!:string;
   dateTransaction!:string;
   montant!:string;

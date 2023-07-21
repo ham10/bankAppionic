@@ -67,7 +67,7 @@ export class HomePage {
         if(this.passcode.length == 4) {
           if(this.newPincount > 0){
             if(	this.finalPin == this.codeone+this.codetwo+this.codethree+this.codefour){
-              this.navCtrl.navigateRoot("/barcode-scanning").then(() => {
+              this.navCtrl.navigateRoot("/home-transaction").then(() => {
 
               });
               console.log("passwordMatched")
@@ -116,7 +116,7 @@ export class HomePage {
   }
 
   goTo(){
-    this.navCtrl.navigateRoot("/barcode-scanning").then(() => {
+    this.navCtrl.navigateRoot("/home-transaction").then(() => {
 
     });
   }
