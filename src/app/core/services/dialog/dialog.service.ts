@@ -11,6 +11,9 @@ import {
   ModalOptions,
   PopoverOptions,
 } from '@ionic/core';
+import {DetailsPage} from "@app/details/details.page";
+import {ScannerPayerPage} from "@app/scanner-payer/scanner-payer.page";
+import {Data} from "@angular/router";
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +29,15 @@ export class DialogService {
   public async dismissModal(data?: any): Promise<boolean> {
     return this.modalCtrl.dismiss(data);
   }
+  // public async showScann(opts: ModalOptions): Promise<HTMLIonModalElement> {
+  //   const modal = await this.modalCtrl.create({
+  //     component: ScannerPayerPage,
+  //     componentProps: {
+  //     }
+  //   })
+  //   await modal.present();
+  //   return modal;
+  // }
 
   public async showAlert(opts?: AlertOptions): Promise<HTMLIonAlertElement> {
     const alert = await this.alertCtrl.create(opts);

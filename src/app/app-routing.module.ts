@@ -21,16 +21,10 @@ const routes: Routes = [
     loadChildren: () => import('./home-bank/home-bank.module').then( m => m.HomeBankPageModule)
   },
   {
-    path: 'barcode-scanning',
-    loadChildren: () =>
-      import('./barcode-scanning/barcode-scanning.module').then(
-        (m) => m.BarcodeScanningModule
-      ),
-  },
-  {
     path: 'transaction-client',
     loadChildren: () => import('./transaction-client/transaction-client.module').then( m => m.TransactionClientPageModule)
-  },  {
+  },
+  {
     path: 'depot-retrait-transfert',
     loadChildren: () => import('./depot-retrait-transfert/depot-retrait-transfert.module').then( m => m.DepotRetraitTransfertPageModule)
   },
@@ -49,7 +43,11 @@ const routes: Routes = [
   {
     path: 'home-transaction',
     loadChildren: () => import('./home-transaction/home-transaction.module').then( m => m.HomeTransactionPageModule)
+  },  {
+    path: 'scanner-payer',
+    loadChildren: () => import('./scanner-payer/scanner-payer.module').then( m => m.ScannerPayerPageModule)
   },
+
 
 ];
 

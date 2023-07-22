@@ -47,7 +47,7 @@ export class DepotRetraitTransfertPage implements OnInit {
   }
 
   cancel() {
-    return this.modalCtrl.dismiss(null, 'cancel');
+    return this.modalCtrl.dismiss(this.Data);
   }
 
   // confirm() {
@@ -109,10 +109,8 @@ inputDepot(event:any) {
       message: 'Depot effectué avec succes!',
       buttons: ['OK'],
     });
-
     await alert.present();
-    this.modalCtrl.dismiss(this.name, 'presentAlertD');
-    this.db.fetchTransactionClients();
+    this.modalCtrl.dismiss(this.Data, 'presentAlertD');
   }
 
 }

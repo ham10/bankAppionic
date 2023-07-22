@@ -3,6 +3,7 @@ import {AlertController, ModalController} from "@ionic/angular";
 import {FormGroup, NgForm} from "@angular/forms";
 import {DbService} from "@app/service/db.service";
 import {error} from "@angular/compiler-cli/src/transformers/util";
+import {document} from "ionicons/icons";
 
 @Component({
   selector: 'app-retrait',
@@ -24,14 +25,15 @@ export class RetraitPage implements OnInit {
 
   ngOnInit() {
   }
+  /***Cancel Modal Retrait*******/
   cancel() {
-    return this.modalCtrl.dismiss(null, 'cancel');
+    return this.modalCtrl.dismiss(this.Data);
   }
 
   // presentAlert() {
   //   return this.modalCtrl.dismiss(this.name, 'presentAlert');
   // }
-
+  /****** Calcul Fees Retrait**********/
   inputRetrait(event:any) {
     if (this.togleV) {
       this.fees= 0;
@@ -42,7 +44,7 @@ export class RetraitPage implements OnInit {
     }
 
   }
-
+  /****** Save Data For Withdrawal**********/
   storeDataR() {
     this.db.addTransByNumberAmount(
       'ham@outlook.fr',
@@ -68,9 +70,7 @@ export class RetraitPage implements OnInit {
       buttons: ['OK'],
     });
     await alert.present();
-    this.db.fetchTransactionClients();
-     this.modalCtrl.dismiss(this.name, 'presentAlertRetr');
+    this.modalCtrl.dismiss(this.Data, 'presentAlertRetr');
+
   }
-
-
 }

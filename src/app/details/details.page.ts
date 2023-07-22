@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {ModalController} from "@ionic/angular";
 
 @Component({
   selector: 'app-details',
@@ -6,15 +7,17 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./details.page.scss'],
 })
 export class DetailsPage implements OnInit {
-
+  Data: any[] = [];
   typeTransaction!:string;
   dateTransaction!:string;
   montant!:string;
 
-  constructor() { }
+  constructor(private modalCtrl: ModalController) { }
 
   ngOnInit() {
   }
-
+  cancel() {
+    return this.modalCtrl.dismiss(this.Data);
+  }
 
 }

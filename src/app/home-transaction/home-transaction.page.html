@@ -1,6 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title align="center">Deposit, withdraw,Transfert</ion-title>
+    <ion-toolbar>
+      <ion-searchbar [(ngModel)]="search" animated="true" (ionInput)="_ionChange($event)" ></ion-searchbar>
+    </ion-toolbar>
   </ion-toolbar>
 </ion-header>
 
@@ -8,24 +10,36 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-button expand="block" (click)="openModal()">Deposit with number</ion-button>
+  <ion-button expand="block" (click)="openModalDepot()">Deposit with number</ion-button>
   <p></p>
   <ion-button expand="block" color="secondary"(click)="openModalRetrait()">withdraw with number</ion-button>
   <p></p>
   <ion-button expand="block" color="tertiary"(click)="openModalTransfert()">Transfer with number</ion-button>
   <p></p>
-  <!--  <p>{{ message }}</p>-->
-  <!-- <form [formGroup]="formGroup">
-    <ion-button expand="block" (click)="scan()" [disabled]="!isSupported">
+
+  <form [formGroup]="formGroup">
+    <ion-button expand="block" (click)="startScan()" [disabled]="!isSupported">
       Scanner pour Payer</ion-button >
-  </form>-->
-  <ion-item detail  (click)="openModalDetail(Data)" lines="inset" *ngFor="let data of Data">
+<!--    <ion-button expand="block" (click)="installGoogleBarcodeScannerModule()" [disabled]="!isSupported">-->
+<!--      Scanner pour Payer</ion-button >-->
+  </form>
+  <ng-container *ngFor="let barcode of barcodes">
+    <ion-item>
+      <ion-label position="fixed">Bytes</ion-label>
+      <ion-input
+        type="text"
+        readonly
+        [value]="barcode.bytes?.toString() || ''"
+      ></ion-input>
+    </ion-item>
+  </ng-container>
+<!--  <ion-list *ngIf="showList">-->
+  <ion-item detail  (click)="openModalDetail(Data)" lines="inset" *ngFor="let data of Data ">
     <ion-label>
       <h5>{{data.typeTransaction}} </h5>
       <p>{{data.montant}} Date {{data.dateTransaction}}  </p>
 
-
     </ion-label>
   </ion-item>
-
+<!--  </ion-list>-->
 </ion-content>

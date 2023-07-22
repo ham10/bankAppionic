@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, NgZone, OnInit, ViewChild} from '@angular/core';
 import {SQLite, SQLiteObject} from "@ionic-native/sqlite/ngx";
 import {BehaviorSubject, Observable} from "rxjs";
 import {FormBuilder, FormGroup, UntypedFormControl, UntypedFormGroup} from "@angular/forms";
-import {Barcode, BarcodeFormat, LensFacing} from "@capacitor-mlkit/barcode-scanning";
+import {Barcode, BarcodeFormat, BarcodeScanner, LensFacing} from "@capacitor-mlkit/barcode-scanning";
 import {DialogService} from "@app/core";
-import {ModalController, Platform, ToastController} from "@ionic/angular";
+import {IonSearchbar, ModalController, Platform, ToastController} from "@ionic/angular";
 import {HttpClient} from "@angular/common/http";
 import {SQLitePorter} from "@ionic-native/sqlite-porter/ngx";
 import {DbService} from "@app/service/db.service";
@@ -14,6 +14,8 @@ import {DepotRetraitTransfertPage} from "@app/depot-retrait-transfert/depot-retr
 import {RetraitPage} from "@app/retrait/retrait.page";
 import {TransfertPage} from "@app/transfert/transfert.page";
 import {DetailsPage} from "@app/details/details.page";
+import {FilePicker} from "@capawesome/capacitor-file-picker";
+import {BarcodeScanningModalComponent} from "@app/home-transaction/barcode-scanning-modal.component";
 
 @Component({
   selector: 'app-home-transaction',
@@ -21,6 +23,9 @@ import {DetailsPage} from "@app/details/details.page";
   styleUrls: ['./home-transaction.page.scss'],
 })
 export class HomeTransactionPage implements OnInit {
+  searchF!: string;
+  @ViewChild('search', {static: false}) search!: IonSearchbar;
+  showList: boolean = true;
   numeroPhone!: string;
   private storage!: SQLiteObject;
   transactionCList: any = new BehaviorSubject([]);
@@ -28,15 +33,29 @@ export class HomeTransactionPage implements OnInit {
 
   mainForm!: FormGroup;
   @Input() Data: any[] = [];
+  @Input() id!: number;
+  numString = this.numeroPhone;
 
+  message = 'This modal example uses the modalController to present and dismiss modals.';
+  /****Barcode*/
+  public readonly barcodeFormat = BarcodeFormat;
+  public readonly lensFacing = LensFacing;
+
+  public formGroup = new UntypedFormGroup({
+    formats: new UntypedFormControl([]),
+    lensFacing: new UntypedFormControl(LensFacing.Back),
+    googleBarcodeScannerModuleInstallState: new UntypedFormControl(0),
+    googleBarcodeScannerModuleInstallProgress: new UntypedFormControl(0),
+  });
+  public barcodes: Barcode[] = [];
+  public isSupported = false;
+  public isPermissionGranted = false;
 
   private readonly GH_URL =
     'https://github.com/capawesome-team/capacitor-barcode-scanning';
 
-  numString = this.numeroPhone;
 
-  message = 'This modal example uses the modalController to present and dismiss modals.';
-
+  /***Barcode*****/
 
   constructor(private readonly dialogService: DialogService,
               private platform: Platform,
@@ -47,7 +66,8 @@ export class HomeTransactionPage implements OnInit {
               public formBuilder: FormBuilder,
               private toast: ToastController,
               private router: Router,
-              private modalCtrl: ModalController) {
+              private modalCtrl: ModalController,
+              private readonly ngZone: NgZone) {
     this.platform.ready().then(() => {
       this.sqlite
         .create({
@@ -59,27 +79,51 @@ export class HomeTransactionPage implements OnInit {
           this.getFakeData();
         });
     });
+
   }
 
 
   ngOnInit() {
-    this.db.dbState().subscribe((res)=>{
-      if(res){
-        this.db.fetchTransactionClients().subscribe(item =>{
-          this.Data=item;
+    /*****Barcode*/
+    BarcodeScanner.isSupported().then((result) => {
+      this.isSupported = result.supported;
+    });
+    BarcodeScanner.checkPermissions().then((result) => {
+      this.isPermissionGranted = result.camera === 'granted';
+    });
+    BarcodeScanner.removeAllListeners().then(() => {
+      BarcodeScanner.addListener(
+        'googleBarcodeScannerModuleInstallProgress',
+        (event) => {
+          this.ngZone.run(() => {
+            console.log('googleBarcodeScannerModuleInstallProgress', event);
+            const {state, progress} = event;
+            this.formGroup.patchValue({
+              googleBarcodeScannerModuleInstallState: state,
+              googleBarcodeScannerModuleInstallProgress: progress,
+            });
+          });
+        }
+      );
+    });
+    /**Barcode***/
+    this.db.dbState().subscribe((res) => {
+      if (res) {
+        this.db.fetchTransactionClients().subscribe(item => {
+          this.Data = item;
         })
       }
     });
     this.mainForm = this.formBuilder.group({
-      email:[''],
-      name:[''],
-      password:[''],
-      typeTransaction:[''],
-      montant:[''],
-      numero:[''],
-      date:[''],
-      qrcode:[''],
-      fees:['']
+      email: [''],
+      name: [''],
+      password: [''],
+      typeTransaction: [''],
+      montant: [''],
+      numero: [''],
+      date: [''],
+      qrcode: [''],
+      fees: ['']
     })
     this.db.fetchTransactionClients();
   }
@@ -140,7 +184,7 @@ export class HomeTransactionPage implements OnInit {
       });
   }
 
-// Add
+// Add Transaction
   addTransactionClientByNumber(numeroPhone: any, montant: any) {
     let data = [numeroPhone, montant];
     return this.storage
@@ -202,59 +246,91 @@ export class HomeTransactionPage implements OnInit {
         this.getTransactionClient();
       });
   }
-
-  async openModal() {
+/******Open Modal Depot**********/
+  async openModalDepot() {
     const modal = await this.modalCtrl.create({
       component: DepotRetraitTransfertPage,
     });
-    modal.present();
+    await modal.present();
+    let dataReturned;
+    await modal.onDidDismiss().then((Data) => {
+      dataReturned = Data.data;
 
-    const { data, role } = await modal.onWillDismiss();
-
-    if (role === 'confirm') {
-      this.message = `Hello, ${data}!`;
-    }
+      // If 'saved' is returned, refresh homepage
+      if (dataReturned) {
+        document.location.reload();
+      }
+    });
   }
+  /******Open Modal Retrait**********/
   async openModalRetrait() {
     const modal = await this.modalCtrl.create({component: RetraitPage,});
-    modal.present();
-    const { data } = await modal.onDidDismiss();
-    if (data) {
-      this.db.fetchTransactionClients();
-    }
+    await modal.present();
+    // const { data } = await modal.onDidDismiss();
+    // if (data) {
+    //   this.db.fetchTransactionClients();
+    // }
     // return await modal.present();
+    let dataReturned;
+    await modal.onDidDismiss().then((Data) => {
+      dataReturned = Data.data;
 
+      // If 'saved' is returned, refresh homepage
+      if (dataReturned) {
+        document.location.reload();
+      }
+    });
   }
+  /******Open Modal Transfert**********/
   async openModalTransfert() {
     const modal = await this.modalCtrl.create({component: TransfertPage,});
-    modal.present();
-    const { data } = await modal.onDidDismiss();
-    if (data) {
-      this.db.fetchTransactionClients();
-    }
+    await modal.present();
+    // const { data } = await modal.onDidDismiss();
+    // if (data) {
+    //   this.db.fetchTransactionClients();
+    // }
     // return await modal.present();
+    await modal.present();
+    let dataReturned;
+    modal.onWillDismiss().then((Data) => {
+      dataReturned = Data.data;
 
-  }
-  async openModalDetail(Data:any) {
-    const modal = await this.modalCtrl.create({
-      component: DetailsPage,
-      componentProps:{
-        Data
+      // If 'saved' is returned, refresh homepage
+      if (dataReturned) {
+        document.location.reload();
       }
-    }).then((res) => {
-      res.present;
     });
 
 
   }
-  handleData(ids: string[]){
-    this.Data = ids;
+  /******Open Modal Detail**********/
+  async openModalDetail(Data: any) {
+
+    const modal = await this.modalCtrl.create({
+      component: DetailsPage,
+      componentProps: {
+        Data
+      }
+    })
+    await modal.present();
+    let dataReturned;
+    modal.onWillDismiss().then((Data) => {
+      dataReturned = Data.data;
+
+      // If 'saved' is returned, refresh homepage
+      if (dataReturned) {
+        document.location.reload();
+      }
+    });
+
+
   }
 
   async canDismiss(data?: any, role?: string) {
     return role !== 'gesture';
   }
-  handleRefresh(event:any) {
+  /******* Refresh ***********/
+  handleRefresh(event: any) {
     this.db.fetchTransactionClients();
     setTimeout(() => {
       // Any calls to load data go here
@@ -262,4 +338,93 @@ export class HomeTransactionPage implements OnInit {
     }, 2000);
 
   }
+
+  /***Barcode Start Scann ***/
+  public async startScan(): Promise<void> {
+    const formats = this.formGroup.get('formats')?.value || [];
+    const lensFacing =
+      this.formGroup.get('lensFacing')?.value || LensFacing.Back;
+    const element = await this.dialogService.showModal({
+      component: BarcodeScanningModalComponent,
+      // Set `visibility` to `visible` to show the modal (see `src/theme/variables.scss`)
+      cssClass: 'barcode-scanning-modal',
+      showBackdrop: false,
+      componentProps: {
+        formats: formats,
+        lensFacing: lensFacing,
+      },
+    });
+    element.onDidDismiss().then((result) => {
+      const barcode: Barcode | undefined = result.data?.barcode;
+      if (barcode) {
+        this.barcodes = [barcode];
+      }
+    });
+  }
+  /******Read Barcode from image**********/
+  public async readBarcodeFromImage(): Promise<void> {
+    const {files} = await FilePicker.pickImages({multiple: false});
+    const path = files[0]?.path;
+    if (!path) {
+      return;
+    }
+    const formats = this.formGroup.get('formats')?.value || [];
+    const {barcodes} = await BarcodeScanner.readBarcodesFromImage({
+      path,
+      formats,
+    });
+    this.barcodes = barcodes;
+  }
+  /******Scan Barcode with Scanner Google**********/
+  public async scan(): Promise<void> {
+    const formats = this.formGroup.get('formats')?.value || [];
+    const {barcodes} = await BarcodeScanner.scan({
+      formats,
+    });
+    this.barcodes = barcodes;
+  }
+  /******Open Settings App**********/
+  public async openSettings(): Promise<void> {
+    await BarcodeScanner.openSettings();
+  }
+  /******Install Google Barcode Scanner Module**********/
+  public async installGoogleBarcodeScannerModule(): Promise<void> {
+    await BarcodeScanner.installGoogleBarcodeScannerModule();
+  }
+  /******Permission **********/
+  public async requestPermissions(): Promise<void> {
+    await BarcodeScanner.requestPermissions();
+  }
+
+  public openOnGithub(): void {
+    window.open(this.GH_URL, '_blank');
+  }
+
+  /***Search Event ****/
+  async _ionChange(event: any) {
+    let val = event.target.value;
+    if (val && val.trim() != '') {
+      this.Data = this.Data.filter((item: any) => {
+        return (item.typeTransaction.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+      //   this.showList = true;
+      // } else {
+      //
+      //
+      //   this.showList = false;
+      // }
+      // this.search.getInputElement().then(item => console.log(item))
+    }
+  }
+  selected(item:any, input:any){
+    input.value='';
+    this.formGroup.patchValue({selected:item});
+    this.Data=[];
+  }
+  // ionViewDidEnter() {
+  //   setTimeout(() => {
+  //     this.search.setFocus();
+  //   });
+  // }
+
 }
