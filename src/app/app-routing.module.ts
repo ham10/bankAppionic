@@ -42,13 +42,13 @@ const routes: Routes = [
   },
   {
     path: 'home-transaction',
+
     loadChildren: () => import('./home-transaction/home-transaction.module').then( m => m.HomeTransactionPageModule)
-  },  {
+  },
+  {
     path: 'scanner-payer',
     loadChildren: () => import('./scanner-payer/scanner-payer.module').then( m => m.ScannerPayerPageModule)
   },
-
-
 ];
 
 @NgModule({

@@ -142,3 +142,15 @@ page-home {
   flex-direction: column;
 }
 
+.titleicon div{
+  display:inline-block;
+  margin-bottom:10px;
+}
+ion-header {
+  background: var(--ion-color-primary);
+  ion-avatar {
+    margin: 20px auto;
+    height: 120px;
+    width: 120px;
+  }
+}

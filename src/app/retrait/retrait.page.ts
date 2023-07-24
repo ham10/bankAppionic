@@ -52,7 +52,7 @@ export class RetraitPage implements OnInit {
       '',
       'Retrait',
       this.montant,
-      '10/03/1887',
+      new Date(),
       'erfgthjklm',
       this.numeroPhone,
       this.fees,

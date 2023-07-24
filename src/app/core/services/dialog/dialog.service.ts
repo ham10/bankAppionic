@@ -11,10 +11,6 @@ import {
   ModalOptions,
   PopoverOptions,
 } from '@ionic/core';
-import {DetailsPage} from "@app/details/details.page";
-import {ScannerPayerPage} from "@app/scanner-payer/scanner-payer.page";
-import {Data} from "@angular/router";
-
 @Injectable({
   providedIn: 'root',
 })

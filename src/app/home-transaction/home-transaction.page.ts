@@ -15,7 +15,8 @@ import {RetraitPage} from "@app/retrait/retrait.page";
 import {TransfertPage} from "@app/transfert/transfert.page";
 import {DetailsPage} from "@app/details/details.page";
 import {FilePicker} from "@capawesome/capacitor-file-picker";
-import {BarcodeScanningModalComponent} from "@app/home-transaction/barcode-scanning-modal.component";
+import {BarcodeScanningModalComponent} from "@app/scanner-payer/barcode-scanning-modal.component";
+import {ScannerPayerPage} from "@app/scanner-payer/scanner-payer.page";
 
 @Component({
   selector: 'app-home-transaction',
@@ -300,7 +301,27 @@ export class HomeTransactionPage implements OnInit {
         document.location.reload();
       }
     });
+  }
+/****Open Modal Sanner******/
 
+    async openModalScanner() {
+      const modal = await this.modalCtrl.create({component: ScannerPayerPage,});
+      await modal.present();
+      // const { data } = await modal.onDidDismiss();
+      // if (data) {
+      //   this.db.fetchTransactionClients();
+      // }
+      // return await modal.present();
+      await modal.present();
+      let dataReturned;
+      modal.onWillDismiss().then((Data) => {
+        dataReturned = Data.data;
+
+        // If 'saved' is returned, refresh homepage
+        if (dataReturned) {
+          document.location.reload();
+        }
+      });
 
   }
   /******Open Modal Detail**********/

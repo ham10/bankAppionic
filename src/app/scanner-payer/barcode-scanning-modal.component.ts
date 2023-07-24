@@ -19,7 +19,7 @@ import {
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-home-transaction',
+  selector: 'app-scanner-payer',
   template: `
     <ion-header>
       <ion-toolbar>

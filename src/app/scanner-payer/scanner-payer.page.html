@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title class="ion-titleCss" aligne="center">Scanner</ion-title>
+    <!--    <ion-buttons slot="end">-->
+    <!--      <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>-->
+    <!--    </ion-buttons>-->
+  </ion-toolbar>
+</ion-header>
+<ion-content  class="ion-padding" [fullscreen]="true">
+<form [formGroup]="formGroup">
+    <ion-button expand="block" (click)="startScan()" [disabled]="!isSupported">
+      Scanner pour Payer</ion-button >
+  </form>
+<p></p>
+  <form #scannForm (ngSubmit)="storeDataFromScann()">
+  <ion-item>
+    <ion-toggle labelPlacement="fixed" aria-label="Secondary toggle" color="primary"  name="togleV" [(ngModel)]="togleV" [checked]="togleV" (ionchange)="inputRetrait($event)" >frais inclu</ion-toggle>
+  </ion-item>
+<ng-container *ngFor="let barcode of barcodes">
+  <ion-item>
+    <ion-label position="fixed">Bytes</ion-label>
+    <ion-input
+      type="text"
+      readonly
+      [value]="barcode.bytes?.toString() || ''" [(ngModel)]="qrCode" name="qrCode" >
+    </ion-input>
+  </ion-item>
+  <p></p>
+</ng-container>
+  <p></p>
+  <ion-list>
+    <ion-item>
+      <ion-select aria-label="Fruit" name="typeTransaction" [(ngModel)]="typeTransaction"  interface="popover" placeholder="Select Type Transaction">
+        <ion-select-option  value="depot">Depot</ion-select-option>
+        <ion-select-option value="retrait">Retrait</ion-select-option>
+        <ion-select-option value="transfert">Transfert</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <p></p>
+  <ion-item>
+    <ion-input labelPlacement="stacked" name="montant" [(ngModel)]="montant" (input)="inputRetrait($event)"   placeholder="Your Amount" required></ion-input>
+  </ion-item>
+  <ion-item *ngIf="typeTransaction == 'retrait' || typeTransaction == 'transfert' ">
+    <ion-input  labelPlacement="stacked" [(ngModel)]="fees"  name="fees" placeholder="Your Fees" readonly="true"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="typeTransaction == 'transfert'">
+    <ion-input labelPlacement="stacked" name="numeroPhoneB"   [(ngModel)]="numeroPhoneB"  placeholder=" Number Beneficiary" ></ion-input>
+  </ion-item>
+    <ion-button (click)="presentAlertScann()" type="submit" name="btnScann" expand="block"align="right" color="primary">Submit</ion-button>
+  </form>
+</ion-content>

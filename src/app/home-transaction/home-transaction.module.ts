@@ -10,7 +10,6 @@ import { HomeTransactionPage } from './home-transaction.page';
 import {DbService} from "@app/service/db.service";
 import {SQLite} from "@ionic-native/sqlite/ngx";
 import {SQLitePorter} from "@ionic-native/sqlite-porter/ngx";
-import {BarcodeScanningModalComponent} from "@app/home-transaction/barcode-scanning-modal.component";
 import {SharedModule} from "@app/shared";
 
 @NgModule({
@@ -29,6 +28,6 @@ import {SharedModule} from "@app/shared";
     SQLite,
     SQLitePorter
   ],
-  declarations: [HomeTransactionPage,BarcodeScanningModalComponent]
+  declarations: [HomeTransactionPage]
 })
 export class HomeTransactionPageModule {}

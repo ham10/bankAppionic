@@ -16,14 +16,13 @@
   <p></p>
   <ion-button expand="block" color="tertiary"(click)="openModalTransfert()">Transfer with number</ion-button>
   <p></p>
+  <ion-button expand="block" color="tertiary"(click)="openModalScanner()">Scanne for DRW</ion-button>
 
-  <form [formGroup]="formGroup">
+  <!--<form [formGroup]="formGroup">
     <ion-button expand="block" (click)="startScan()" [disabled]="!isSupported">
       Scanner pour Payer</ion-button >
-<!--    <ion-button expand="block" (click)="installGoogleBarcodeScannerModule()" [disabled]="!isSupported">-->
-<!--      Scanner pour Payer</ion-button >-->
-  </form>
-  <ng-container *ngFor="let barcode of barcodes">
+  </form>-->
+ <!-- <ng-container *ngFor="let barcode of barcodes">
     <ion-item>
       <ion-label position="fixed">Bytes</ion-label>
       <ion-input
@@ -32,11 +31,11 @@
         [value]="barcode.bytes?.toString() || ''"
       ></ion-input>
     </ion-item>
-  </ng-container>
+  </ng-container>-->
 <!--  <ion-list *ngIf="showList">-->
   <ion-item detail  (click)="openModalDetail(Data)" lines="inset" *ngFor="let data of Data ">
     <ion-label>
-      <h5>{{data.typeTransaction}} </h5>
+      <h5 [ngClass]="data.typeTransaction=='Retrait'? 'green' : 'blue'">{{data.typeTransaction}} </h5>
       <p>{{data.montant}} Date {{data.dateTransaction}}  </p>
 
     </ion-label>
